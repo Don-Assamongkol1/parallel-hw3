@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "serial_main.h": "c",
+        "stdio.h": "c",
+        "pthread.h": "c",
+        "types.h": "c"
+    },
+    "cSpell.words": [
+        "ttas"
+    ]
+}
