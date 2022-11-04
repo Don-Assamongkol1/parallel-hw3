@@ -27,6 +27,7 @@ int main(int argc, char* argv[]) {
             return 1;
     }
 
+    lock_init(lock);
     volatile int counter = 0;
     for (int i = 0; i < BIG; i++) {
         lock_lock(lock);

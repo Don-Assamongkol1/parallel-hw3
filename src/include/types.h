@@ -3,6 +3,7 @@
 
 #include <pthread.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -13,7 +14,7 @@
 #define TTAS_LOCK_TYPE 3
 
 typedef struct {
-    volatile bool state;
+    volatile int state;  // 0 is false, 1 is true
 } tas_lock_t;
 
 typedef struct {
@@ -26,7 +27,7 @@ typedef struct {
 } pthread_lock_t;
 
 typedef struct {
-    volatile bool state;
+    volatile int state;  // 0 is false, 1 is true
 } ttas_lock_t;
 
 typedef union {

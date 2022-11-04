@@ -3,7 +3,8 @@
         "serial_main.h": "c",
         "stdio.h": "c",
         "pthread.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "stdbool.h": "c"
     },
     "cSpell.words": [
         "ttas"
