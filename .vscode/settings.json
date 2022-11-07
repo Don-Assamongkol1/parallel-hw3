@@ -4,7 +4,8 @@
         "stdio.h": "c",
         "pthread.h": "c",
         "types.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "ttas_lock.h": "c"
     },
     "cSpell.words": [
         "ttas"

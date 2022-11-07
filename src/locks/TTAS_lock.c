@@ -1,18 +1,28 @@
 #include "TTAS_lock.h"
 
-bool ttas_lock_init(ttas_lock_t* tas_lock) {
-    tas_lock->state = false;
+bool ttas_lock_init(ttas_lock_t* ttas_lock) {
+    ttas_lock->state = false;
     return true;
 }
 
-bool ttas_lock_lock(ttas_lock_t* tas_lock) {
+bool ttas_lock_lock(ttas_lock_t* ttas_lock) {
+    while (true) {
+        while (ttas_lock->state) {
+            ;
+        }
+        if (!__sync_fetch_and_or(&(ttas_lock->state), 1)) {
+            return true;
+        }
+    }
+
     return true;
 }
 
-bool ttas_lock_unlock(ttas_lock_t* tas_lock) {
+bool ttas_lock_unlock(ttas_lock_t* ttas_lock) {
+    __sync_fetch_and_and(&(ttas_lock->state), 0);
     return true;
 }
 
-bool ttas_lock_destroy(ttas_lock_t* tas_lock) {
+bool ttas_lock_destroy(ttas_lock_t* ttas_lock) {
     return true;
 }

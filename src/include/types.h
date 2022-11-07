@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define BIG 2000000000
+#define BIG 100000000
 #define TAS_LOCK_TYPE 0
 #define PTHREAD_LOCK_TYPE 1  // Note: we're just wrapping this
 #define A_LOCK_TYPE 2
