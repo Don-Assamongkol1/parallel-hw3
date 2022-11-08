@@ -2,6 +2,7 @@
 
 bool pthread_lock_init(pthread_lock_t* pthread_lock) {
     pthread_lock->mutex = malloc(sizeof(pthread_mutex_t));
+    pthread_mutex_init(pthread_lock->mutex, NULL);
     return true;
 }
 

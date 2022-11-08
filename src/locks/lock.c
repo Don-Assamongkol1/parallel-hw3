@@ -13,6 +13,8 @@ void lock_init(lock_t* lock) {
 
     } else if (lock->locktype == A_LOCK_TYPE) {
         lock->lock->a_lock = malloc(sizeof(a_lock_t));
+        lock->lock->a_lock->size = lock->numThreads;
+
         a_lock_init(lock->lock->a_lock);
 
     } else if (lock->locktype == TTAS_LOCK_TYPE) {
@@ -21,7 +23,7 @@ void lock_init(lock_t* lock) {
     }
 }
 
-void lock_lock(lock_t* lock) {
+void lock_lock(lock_t* lock, int threadID) {
     if (lock->locktype == TAS_LOCK_TYPE) {
         tas_lock_lock(lock->lock->tas_lock);
 
@@ -29,14 +31,14 @@ void lock_lock(lock_t* lock) {
         pthread_lock_lock(lock->lock->pthread_lock);
 
     } else if (lock->locktype == A_LOCK_TYPE) {
-        a_lock_lock(lock->lock->a_lock);
+        a_lock_lock(lock->lock->a_lock, threadID);
 
     } else if (lock->locktype == TTAS_LOCK_TYPE) {
         ttas_lock_lock(lock->lock->ttas_lock);
     }
 }
 
-void lock_unlock(lock_t* lock) {
+void lock_unlock(lock_t* lock, int threadID) {
     if (lock->locktype == TAS_LOCK_TYPE) {
         tas_lock_unlock(lock->lock->tas_lock);
 
@@ -44,7 +46,7 @@ void lock_unlock(lock_t* lock) {
         pthread_lock_unlock(lock->lock->pthread_lock);
 
     } else if (lock->locktype == A_LOCK_TYPE) {
-        a_lock_unlock(lock->lock->a_lock);
+        a_lock_unlock(lock->lock->a_lock, threadID);
 
     } else if (lock->locktype == TTAS_LOCK_TYPE) {
         ttas_lock_unlock(lock->lock->ttas_lock);

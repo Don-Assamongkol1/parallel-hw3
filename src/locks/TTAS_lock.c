@@ -7,7 +7,7 @@ bool ttas_lock_init(ttas_lock_t* ttas_lock) {
 
 bool ttas_lock_lock(ttas_lock_t* ttas_lock) {
     while (true) {
-        while (ttas_lock->state) {
+        while (ttas_lock->state) {  // while state is true, i.e. while someone holds the lock
             ;
         }
         if (!__sync_fetch_and_or(&(ttas_lock->state), 1)) {

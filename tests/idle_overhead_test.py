@@ -1,7 +1,5 @@
 import subprocess
 import os
-import filecmp
-import glob
 
 import constants
 
@@ -9,7 +7,7 @@ import constants
 def idle_overhead_experiment():
     mean_serial_time = 0
     for _ in range(constants.RERUN_COUNT):
-        print('.')
+        # print('     .')
 
         rv_serial = subprocess.run([constants.IDLE_SERIAL], capture_output=True, text=True)
         serial_time = float(rv_serial.stdout.split(":")[-1].strip())
@@ -21,7 +19,7 @@ def idle_overhead_experiment():
 
         mean_parallel_time = 0
         for _ in range(constants.RERUN_COUNT):
-            print('.')
+            # print('     .')
 
             rv_parallel = subprocess.run(
                 [
@@ -35,7 +33,12 @@ def idle_overhead_experiment():
             mean_parallel_time += parallel_time
 
         print(f"for locktype {lock_type}")
-        print(f"mean_parallel_time: {mean_parallel_time / constants.RERUN_COUNT}")
+        print(f"    mean_parallel_time: {mean_parallel_time / constants.RERUN_COUNT}")
+        print(f"    mean_serial_time: {mean_serial_time / constants.RERUN_COUNT}")
+
+        print(f"    ratio parallel to serial: {mean_parallel_time / mean_serial_time}")
+
+    print("\n")
 
 
 idle_overhead_experiment()

@@ -27,15 +27,17 @@ int main(int argc, char* argv[]) {
             return 1;
     }
 
+    lock->numThreads = 1;  // used for the a_lock
+
     StopWatch_t* stopwatch = malloc(sizeof(StopWatch_t));
     startTimer(stopwatch);
 
     volatile int counter = 0;
     lock_init(lock);
     for (int i = 0; i < BIG; i++) {
-        lock_lock(lock);
+        lock_lock(lock, 0);  // pass in 0 because index of the lock is 0
         counter += 1;
-        lock_unlock(lock);
+        lock_unlock(lock, 0);
     }
     counter;  // to suppress unused var warning
 
