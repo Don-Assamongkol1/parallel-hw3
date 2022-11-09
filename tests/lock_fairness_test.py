@@ -10,8 +10,8 @@ import re
 
 
 def lock_fairness_experiment():
-    # Ns = [1, 2, 4, 8, 14] 14 doesn't work on my Macbook
-    Ns = [1, 2, 4, 8]
+    Ns = [1, 2, 4, 8, 14] # 14 doesn't work on my Macbook
+    # Ns = [1, 2, 4, 8]
 
     for lock_type in constants.LOCKTYPES:
         print(f"for locktype={lock_type}")

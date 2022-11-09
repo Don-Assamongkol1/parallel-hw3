@@ -6,8 +6,8 @@ import constants
 
 
 def lock_scaling_experiment():
-    Ns = [1, 2, 4, 8]
-    # Ns = [1, 2, 4, 8, 14]
+    # Ns = [1, 2, 4, 8]
+    Ns = [1, 2, 4, 8, 14]
 
     mean_serial_time = 0
     for _ in range(constants.RERUN_COUNT):
