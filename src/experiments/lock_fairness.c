@@ -102,6 +102,8 @@ int main(int argc, char* argv[]) {
         if (thread_access_counts[i] < min_accesses) {
             min_accesses = thread_access_counts[i];
         }
+
+        printf("thread %d: %d accesses\n", i, thread_access_counts[i]);
     }
 
     printf("max_accesses: %d\n", max_accesses);

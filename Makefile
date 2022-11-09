@@ -6,16 +6,16 @@ SRCS_LOCK_FAIRNESS = src/utils/* src/experiments/lock_fairness.c src/locks/*
 
 
 idle_serial: $(SRCS_IDLE_SERIAL)
-	gcc $(CFLAGS) -o idle_serial $(SRCS_IDLE_SERIAL) 
+	gcc $(CFLAGS) -o idle_serial $(SRCS_IDLE_SERIAL) -lm
 
 idle_parallel: $(SRCS_IDLE_PARALLEL)
-	gcc $(CFLAGS) -o idle_parallel $(SRCS_IDLE_PARALLEL) 
+	gcc $(CFLAGS) -o idle_parallel $(SRCS_IDLE_PARALLEL) -lm
 
 lock_scaling: $(SRCS_LOCK_SCALING)
-	gcc $(CFLAGS) -o lock_scaling $(SRCS_LOCK_SCALING) 
+	gcc $(CFLAGS) -o lock_scaling $(SRCS_LOCK_SCALING) -lm
 
 lock_fairness: $(SRCS_LOCK_FAIRNESS)
-	gcc $(CFLAGS) -o lock_fairness $(SRCS_LOCK_FAIRNESS) 
+	gcc $(CFLAGS) -o lock_fairness $(SRCS_LOCK_FAIRNESS) -lm
 
 all: 
 	make idle_serial
