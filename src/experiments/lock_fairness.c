@@ -93,24 +93,10 @@ int main(int argc, char* argv[]) {
 
     // printf("thread: accesses per thread\n");
     int total_count = 0;
-    int max_accesses = 0;
-    int min_accesses = BIG;
     for (int i = 0; i < numThreads; i++) {
-        // printf("%d %d\n", i, thread_access_counts[i]);
         total_count += thread_access_counts[i];
-
-        if (thread_access_counts[i] > max_accesses) {
-            max_accesses = thread_access_counts[i];
-        }
-        if (thread_access_counts[i] < min_accesses) {
-            min_accesses = thread_access_counts[i];
-        }
-
         printf("thread %d: %d accesses\n", i, thread_access_counts[i]);
     }
-
-    printf("max_accesses: %d\n", max_accesses);
-    printf("min_accesses: %d\n", min_accesses);
 
     if (total_count != counter) {
         printf("Error! Sum of thread counts does not equal sum of each thread count!\n");
