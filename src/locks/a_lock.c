@@ -7,18 +7,20 @@ bool a_lock_init(a_lock_t* a_lock) {
     a_lock->thread_id_to_slot = malloc(sizeof(int) * a_lock->size);
     a_lock->tail = 0;
 
-    a_lock->flags_array[0] = 1;  // set the first flag to true
+    // set the first flag to true
+    a_lock->flags_array[0] = 1;
 
+    // set all other flags to zero
     for (int i = 1; i < a_lock->size; i++) {
-        a_lock->flags_array[16 * i] = 0;  // set all other flags to zero
+        a_lock->flags_array[STEP_SIZE * i] = 0;
     }
 
     return true;
 }
 
 bool a_lock_lock(a_lock_t* a_lock, int threadID) {
-    int slot = __sync_fetch_and_add(&(a_lock->tail), 16) % a_lock->size;  // add 16 and not 1 because we have padding
-    a_lock->thread_id_to_slot[threadID] = slot;
+    int slot = __sync_fetch_and_add(&(a_lock->tail), STEP_SIZE) % a_lock->size;  // add by STEP_SIZE=16 b/c we have padding
+    a_lock->thread_id_to_slot[threadID] = slot;                                  // have the lock remember this thread (id)'s position in the queue
 
     while (!a_lock->flags_array[slot]) {
         ;

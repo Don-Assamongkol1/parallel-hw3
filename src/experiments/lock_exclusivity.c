@@ -1,10 +1,10 @@
-#include "lock_fairness.h"
+#include "CS_exclusivity.h"
 
 typedef struct _thread_args_t {
     volatile int* counter_ref;
     int thread_idx;
     lock_t* lock;
-    int* thread_access_counts;
+    int* num_threads_in_CS;
 } thread_args_t;
 
 void* thr_func(void* input) {
@@ -12,14 +12,16 @@ void* thr_func(void* input) {
     volatile int* counter_ref = thr_args->counter_ref;
     lock_t* lock = thr_args->lock;
     int thread_idx = thr_args->thread_idx;
-    int* thread_access_counts = thr_args->thread_access_counts;
+    int* num_threads_in_CS = thr_args->num_threads_in_CS;
 
-    while (*counter_ref < BIG) {
+    while (*counter_ref < 1000) {
         lock_lock(lock, thread_idx);
-        if (*counter_ref < BIG) {
+        *num_threads_in_CS += 1;
+        if (*counter_ref < 1000) {
             *counter_ref += 1;  // check that another thread has not already incremented counter to the desired val
-            thread_access_counts[thread_idx] += 1;
         }
+        usleep(100 * 1);  // sleep to increase chance of interrupts
+        *num_threads_in_CS -= 1;
         lock_unlock(lock, thread_idx);
     }
     pthread_exit(NULL);
@@ -62,17 +64,13 @@ int main(int argc, char* argv[]) {
     /* Spawn our threads */
     thread_args_t thr_args[numThreads];  // must memory allocate the arg to each thread
     pthread_t thread_ids[numThreads];    // so we can keep track of our threads
-
-    int thread_access_counts[numThreads];  // NEW: check how many times our thread accesses the critical section
-    for (int i = 0; i < numThreads; i++) {
-        thread_access_counts[i] = 0;
-    }
+    int num_threads_in_CS = 0;
 
     for (int i = 0; i < numThreads; i++) {
         thr_args[i].counter_ref = &counter;
         thr_args[i].lock = lock;
         thr_args[i].thread_idx = i;
-        thr_args[i].thread_access_counts = thread_access_counts;
+        thr_args[i].num_threads_in_CS = &num_threads_in_CS;
 
         if (pthread_create(&(thread_ids[i]), NULL, &thr_func, (void*)&thr_args[i]) != 0) {
             printf("error creating thread!\n");
@@ -88,30 +86,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // printf("thread: accesses per thread\n");
-    int total_count = 0;
-    int max_accesses = 0;
-    int min_accesses = BIG;
-    for (int i = 0; i < numThreads; i++) {
-        // printf("%d %d\n", i, thread_access_counts[i]);
-        total_count += thread_access_counts[i];
-
-        if (thread_access_counts[i] > max_accesses) {
-            max_accesses = thread_access_counts[i];
-        }
-        if (thread_access_counts[i] < min_accesses) {
-            min_accesses = thread_access_counts[i];
-        }
-
-        printf("thread %d: %d accesses\n", i, thread_access_counts[i]);
-    }
-
-    printf("max_accesses: %d\n", max_accesses);
-    printf("min_accesses: %d\n", min_accesses);
-
-    if (total_count != counter) {
-        printf("Error! Sum of thread counts does not equal sum of each thread count!\n");
-    }
+    printf("done!\n");
 
     lock_destroy(lock);
 }
