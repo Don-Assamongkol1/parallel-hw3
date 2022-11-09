@@ -13,7 +13,7 @@ void lock_init(lock_t* lock) {
 
     } else if (lock->locktype == A_LOCK_TYPE) {
         lock->lock->a_lock = malloc(sizeof(a_lock_t));
-        lock->lock->a_lock->size = lock->numThreads;
+        lock->lock->a_lock->numThreads = lock->numThreads;
 
         a_lock_init(lock->lock->a_lock);
 

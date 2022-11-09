@@ -1,4 +1,5 @@
 #include "CS_exclusivity.h"
+#define TARGET 1000
 
 typedef struct _thread_args_t {
     volatile int* counter_ref;
@@ -14,10 +15,10 @@ void* thr_func(void* input) {
     int thread_idx = thr_args->thread_idx;
     int* num_threads_in_CS = thr_args->num_threads_in_CS;
 
-    while (*counter_ref < 1000) {
+    while (*counter_ref < TARGET) {
         lock_lock(lock, thread_idx);
         *num_threads_in_CS += 1;
-        if (*counter_ref < 1000) {
+        if (*counter_ref < TARGET) {
             *counter_ref += 1;  // check that another thread has not already incremented counter to the desired val
         }
         usleep(100 * 1);  // sleep to increase chance of interrupts

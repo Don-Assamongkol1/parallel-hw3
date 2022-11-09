@@ -68,6 +68,7 @@ int main(int argc, char* argv[]) {
         thread_access_counts[i] = 0;
     }
 
+    lock_lock(lock, 15);  // lock the lock so that t_0 is not able to start queueing itself up before all other threads also get a shot to queue up
     for (int i = 0; i < numThreads; i++) {
         thr_args[i].counter_ref = &counter;
         thr_args[i].lock = lock;
@@ -79,6 +80,8 @@ int main(int argc, char* argv[]) {
             return 1;
         }
     }
+    sleep(1);  // add sleep so that all threads have a shot to queue up to the a_lock before we unlock
+    lock_unlock(lock, 15);
 
     /* Wait here for our threads to join */
     for (int i = 0; i < numThreads; i++) {

@@ -22,7 +22,7 @@ typedef struct {
 typedef struct {
     volatile int* flags_array;
     volatile int tail;
-    int size;                // the maximum number of threads that will call our lock
+    int numThreads;          // the maximum number of threads that will call our lock
     int* thread_id_to_slot;  // map thread id's to their slot in our flags array
 } a_lock_t;
 
