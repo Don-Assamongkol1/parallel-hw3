@@ -92,15 +92,17 @@ int main(int argc, char* argv[]) {
     }
 
     // printf("thread: accesses per thread\n");
-    int total_count = 0;
+    // int total_count = 0;
     for (int i = 0; i < numThreads; i++) {
-        total_count += thread_access_counts[i];
-        printf("thread %d: %d accesses\n", i, thread_access_counts[i]);
+        // total_count += thread_access_counts[i];
+        printf("%d \n", thread_access_counts[i]);
+        // printf("thread %d: %d accesses\n", i, thread_access_counts[i]);
     }
 
-    if (total_count != counter) {
-        printf("Error! Sum of thread counts does not equal sum of each thread count!\n");
-    }
+    // if (total_count != counter) {
+    //     printf("Error! Sum of thread counts does not equal sum of each thread count!\n");
+    // }
+    // printf("counter: %d\n", counter);
 
     lock_destroy(lock);
 }
