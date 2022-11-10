@@ -6,6 +6,7 @@ import constants
 
 
 def lock_scaling_experiment():
+    print("lock scaling test")
     # Ns = [1, 2, 4, 8]
     Ns = [1, 2, 4, 8, 14]
 

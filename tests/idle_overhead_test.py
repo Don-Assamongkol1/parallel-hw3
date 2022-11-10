@@ -3,6 +3,8 @@ import constants
 
 
 def idle_overhead_experiment():
+    print("idle overhead experiment")
+    
     mean_serial_time = 0
     for _ in range(constants.RERUN_COUNT):
         # print('     .')

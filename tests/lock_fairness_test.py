@@ -10,6 +10,7 @@ import re
 
 
 def lock_fairness_experiment():
+    print("lock fairness test")
     Ns = [1, 2, 4, 8, 14] # 14 doesn't work on my Macbook
     # Ns = [1, 2, 4, 8]
 
