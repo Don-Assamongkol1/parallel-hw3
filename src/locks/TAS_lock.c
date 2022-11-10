@@ -13,7 +13,7 @@ bool tas_lock_lock(tas_lock_t* tas_lock) {
 }
 
 bool tas_lock_unlock(tas_lock_t* tas_lock) {
-    __sync_fetch_and_and(&(tas_lock->state), 0);
+    tas_lock->state = 0;
     return true;
 }
 

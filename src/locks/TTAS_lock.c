@@ -19,7 +19,8 @@ bool ttas_lock_lock(ttas_lock_t* ttas_lock) {
 }
 
 bool ttas_lock_unlock(ttas_lock_t* ttas_lock) {
-    __sync_fetch_and_and(&(ttas_lock->state), 0);
+    // __sync_fetch_and_and(&(ttas_lock->state), 0); unlock doens't need to be atomic b/c we already hold the lock
+    ttas_lock->state = 0;
     return true;
 }
 
