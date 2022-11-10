@@ -38,9 +38,12 @@ def lock_fairness_experiment():
             ])
             array = rv.stdout.split("\n")[:-1]
             array = [int(num) for num in array]
+            max_accesses = max(array)
+            array = [num / max_accesses for num in array] # this way we scale the accesses as a percentage of the max number of accesses that one thread got
+
 
             print('n: ', n)
-            print(array)
+            print(list(sorted(array)))
 
     print("\n")
 
